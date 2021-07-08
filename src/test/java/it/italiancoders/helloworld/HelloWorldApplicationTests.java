@@ -16,7 +16,6 @@ class HelloWorldApplicationTests {
     @Autowired
     private HelloService helloService;
 
-
     @Test
     @DisplayName("Test Hello message")
     void testFindProductByIdFound() {
