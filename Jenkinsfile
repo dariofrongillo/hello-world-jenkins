@@ -1,12 +1,22 @@
 pipeline {
     agent any
     stages {
-        stage("Compile") {
+        stage("build & SonarQube analysis") {
+            agent any
             steps {
+               withSonarQubeEnv('My SonarQube Server') {
                 sh "chmod +x mvnw"
-                sh "./mvnw compile"
+                sh "./mvnw clean package sonar:sonar"
+                }
             }
         }
+         stage("Quality Gate") {
+            steps {
+              timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+              }
+            }
+         }
         stage("Unit Test") {
             steps {
                 sh "./mvnw test"
