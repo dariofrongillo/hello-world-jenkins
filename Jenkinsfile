@@ -11,7 +11,7 @@ pipeline {
             agent any
             steps {
                withSonarQubeEnv('SonarQube') {
-                               sh "ls -la"
+                sh "chmod +x mvnw"
                 sh "./mvnw clean package sonar:sonar"
                 }
             }
@@ -23,11 +23,13 @@ pipeline {
         }
         stage("Unit Test") {
             steps {
+                sh "chmod +x mvnw"
                 sh "./mvnw test"
             }
         }
          stage("Code Coverage") {
             steps {
+                sh "chmod +x mvnw"
                 sh "./mvnw verify"
                 publishHTML(target: [
                    reportDir: 'target/site/jacoco',
