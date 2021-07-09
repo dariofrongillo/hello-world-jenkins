@@ -6,15 +6,18 @@ pipeline {
             steps {
                withSonarQubeEnv('SonarQube') {
                 sh "chmod +x mvnw"
-                sh "./mvnw sonar:sonar"
-                sh "./mvnw clean package"
+                sh "mvn clean package sonar:sonar"
                 }
             }
         }
         stage("Quality gate") {
             steps {
-                waitForQualityGate abortPipeline: true
-            }
+                timeout(time: 1, unit: 'HOURS') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    waitForQualityGate abortPipeline: true
+                }
+              }
         }
         stage("Unit Test") {
             steps {
