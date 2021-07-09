@@ -12,11 +12,13 @@ pipeline {
             }
         }
          stage("Quality Gate") {
+           withSonarQubeEnv('SonarQube') {
             steps {
               timeout(time: 1, unit: 'HOURS') {
                 waitForQualityGate abortPipeline: true
               }
             }
+           }
          }
         stage("Unit Test") {
             steps {
