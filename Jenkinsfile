@@ -6,7 +6,7 @@ pipeline {
             steps {
                withSonarQubeEnv('SonarQube') {
                 sh "chmod +x mvnw"
-                sh "mvn clean package sonar:sonar"
+                sh "./mvnw clean package sonar:sonar"
                 }
             }
         }
