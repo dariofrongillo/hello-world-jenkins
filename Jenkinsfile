@@ -4,12 +4,14 @@ pipeline {
         stage("Initialization") {
             steps {
                 sh "chmod +x mvnw"
+                sh "ls -la"
             }
         }
         stage("Build & SonarQube analysis") {
             agent any
             steps {
                withSonarQubeEnv('SonarQube') {
+                               sh "ls -la"
                 sh "./mvnw clean package sonar:sonar"
                 }
             }
