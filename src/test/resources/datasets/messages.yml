@@ -1,0 +1,7 @@
+hello_messages:
+  - id: 1
+    message: "Ciao"
+    language: "it"
+  - id: 2
+    message: "Hello"
+    language: "en"
