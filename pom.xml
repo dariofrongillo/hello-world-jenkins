@@ -117,6 +117,9 @@
 									<element>CLASS</element>
 									<excludes>
 										<exclude>it.italiancoders.helloworld.HelloWorldApplication</exclude>
+										<exclude>it.italiancoders.helloworld.entity.*</exclude>
+										<exclude>it.italiancoders.helloworld.repository.*</exclude>
+
 									</excludes>
 									<limits>
 										<limit>
