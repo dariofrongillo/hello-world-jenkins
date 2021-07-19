@@ -24,7 +24,7 @@ pipeline {
                 waitForQualityGate abortPipeline: true
             }
         }
-        stage("Unit Test") {
+        stage("Unit Test + Integration Test") {
             steps {
                 sh "chmod +x mvnw"
                 sh "./mvnw test"
@@ -41,5 +41,14 @@ pipeline {
                 ])
              }
          }
+
+        stage('Deploy') {
+          when {
+            buildingTag()
+          }
+          steps {
+            echo 'Ciao Deploy'
+          }
+        }
     }
 }
