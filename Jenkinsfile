@@ -44,18 +44,7 @@ pipeline {
              }
          }
 
-        stage('Build & Push Docker image') {
-            when { tag "release-*" }
-            steps {
-              script {
-                dockerImage = docker.build registry + ":$BUILD_NUMBER"
-               }
 
-              script {
-                docker.withRegistry( '', registryCredential ) {
-                dockerImage.push()
-               }
-            }
        }
      }
 }
