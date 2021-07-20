@@ -40,6 +40,7 @@ pipeline {
          }
 
         stage("Build & Push Docker image") {
+                when { tag "release-*" }
                 steps {
 					withCredentials([usernamePassword(credentialsId: 'dockerhub_id', passwordVariable: 'pass', usernameVariable: 'user')]) {
 						   sh 'docker login --username=$user --password=$pass'
