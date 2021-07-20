@@ -1,4 +1,9 @@
 pipeline {
+    environment {
+        registry = "dariofrongillo/hello_ci"
+        registryCredential = 'dockerhub_id'
+        dockerImage = ''
+    }
     agent any
     triggers {
          pollSCM('* * * * *')
@@ -39,12 +44,17 @@ pipeline {
              }
          }
 
-        stage('Deploy') {
+        stage('Build & Push Docker image') {
             when { tag "release-*" }
             steps {
-                echo 'Deploying only because this commit is tagged...'
-                echo 'make deploy'
+              script {
+                dockerImage = docker.build registry + ":$BUILD_NUMBER"
+               }
+
+              script {
+                docker.withRegistry( '', registryCredential ) {
+                dockerImage.push()
+               }
             }
-        }
-    }
+       }
 }
