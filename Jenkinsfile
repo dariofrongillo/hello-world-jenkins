@@ -44,12 +44,10 @@ pipeline {
              }
          }
 
-        stage('Build & Push Docker image') {
+        stage("Build & Push Docker image") {
             when { tag "release-*" }
             steps {
-              script {
-                dockerImage = docker.build registry + ":$BUILD_NUMBER"
-               }
+              sh "echo ciao"
 
              }
 
