@@ -1,9 +1,4 @@
 pipeline {
-    environment {
-        registry = "dariofrongillo/hello_ci"
-        registryCredential = 'dockerhub_id'
-        dockerImage = ''
-    }
     agent any
     triggers {
          pollSCM('* * * * *')
@@ -46,11 +41,16 @@ pipeline {
 
         stage("Build & Push Docker image") {
             when { tag "release-*" }
-            steps {
-               sh "./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=dariofrongillo/hello_ci:$GIT_COMMIT"
+				withCredentials([usernamePassword(credentialsId: 'dockerhub_id', passwordVariable: 'pass', usernameVariable: 'user')]) {
+					steps {
+					   sh 'docker login --username=$user --password=$pass'
+					   sh "./mvnw spring-boot:build-image -Dspring-boot.build-image.imageName=dariofrongillo/hello_ci:$GIT_COMMIT"
+					   sh 'docker push dariofrongillo/hello_ci:$GIT_COMMIT'
 
 
-             }
+						 }
+				}
+
 
 			}
     }
