@@ -1,9 +1,5 @@
 pipeline {
-    environment {
-        registry = "dariofrongillo/hello_ci"
-        registryCredential = 'dockerhub_id'
-        dockerImage = ''
-    }
+
     agent any
     triggers {
          pollSCM('* * * * *')
