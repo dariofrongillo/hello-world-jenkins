@@ -8,13 +8,13 @@ pipeline {
             steps {
                 sh "chmod +x mvnw"
                 sh "ls -la"
+                sh "echo $GIT_COMMIT"
             }
         }
         stage("Build & SonarQube analysis") {
             agent any
             steps {
                withSonarQubeEnv('SonarQube') {
-                sh "chmod +x mvnw"
                 sh "./mvnw clean compile sonar:sonar"
                 }
             }
@@ -26,13 +26,11 @@ pipeline {
         }
         stage("Unit Test + Integration Test") {
             steps {
-                sh "chmod +x mvnw"
                 sh "./mvnw test"
             }
         }
          stage("Code Coverage") {
             steps {
-                sh "chmod +x mvnw"
                 sh "./mvnw verify"
                 publishHTML(target: [
                    reportDir: 'target/site/jacoco',
@@ -46,7 +44,7 @@ pipeline {
             when { tag "release-*" }
             steps {
                 echo 'Deploying only because this commit is tagged...'
-                sh 'make deploy'
+                echo 'make deploy'
             }
         }
     }
