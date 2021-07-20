@@ -6,7 +6,6 @@ pipeline {
     stages {
         stage("Initialization") {
             steps {
-                sh "chmod +x mvnw"
                 sh "ls -la"
                 sh "echo $GIT_COMMIT"
             }
